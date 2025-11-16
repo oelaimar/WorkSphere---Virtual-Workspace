@@ -39,6 +39,95 @@
             <button>+</button>
         </div>
     </main>
+    <!-- add employee modal -->
+    <div id="addModal">
+        <div class="modalContainer">
+            <div class="modalHeader">
+                <h2>ADD WORKER</h2>
+                <button>&times;</button>
+            </div>
+            <div class="modalBody">
+                <form id="addEmployeeForm">
+                    <div>
+                        <label for="employeeName">Full Name *</label>
+                        <input type="text" id="employeeName" required>
+                    </div>
+
+                    <div>
+                        <label for="employeeRole">Role *</label>
+                        <select id="employeeRole" required>
+                            <option value="">Select a role...</option>
+                            <option value="Receptionist">Receptionist</option>
+                            <option value="IT Technician">IT Technician</option>
+                            <option value="Security Agent">Security Agent</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Cleaning Staff">Cleaning Staff</option>
+                            <option value="General Staff">General Staff</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="employeePhoto">Photo URL</label>
+                        <input type="url" id="employeePhoto">
+                        <div class="photo-preview">
+                            <img id="photoPreview" src="https://avatar.iran.liara.run/public/30" alt="Preview">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="employeeEmail">Email *</label>
+                        <input type="email" id="employeeEmail" required>
+                    </div>
+
+                    <div>
+                        <label for="employeePhone">Phone *</label>
+                        <input type="tel" id="employeePhone" required>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3>Professional Experience</h3>
+                            <button type="button" id="addExperienceBtn">+ Add</button>
+                        </div>
+
+                        <div id="experiencesContainer">
+                            <!-- Dynamic experience blocks will be added here with js-->
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="button">Cancel</button>
+                        <button type="submit">Add Employee</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- selection modal -->
+    <div id="selectionModal">
+        <div class="modalContainer">
+            <div class="modalHeader">
+                <h2>Select Employee</h2>
+                <button>&times;</button>
+            </div>
+            <div class="modalBody">
+                <div class="selection-list" id="selectionList"></div>
+            </div>
+        </div>
+    </div>
+    <!-- profile modal -->
+    <div id="profileModal">
+        <div class="modalContainer">
+            <div class="modalHeader">
+                <h2>Employee Profile</h2>
+                <button>&times;</button>
+            </div>
+            <div class="modalBody">
+                <div class="modal-body" id="profileContent"></div>
+            </div>
+        </div>
+    </div>
     <script src="screpts/scripts.js"></script>
 </body>
+
 </html>
