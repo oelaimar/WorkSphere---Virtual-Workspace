@@ -90,3 +90,34 @@ aside {
     color: var(--bg-white);
     border-radius: 10px;
 }
+#addEmployeeBtn:hover{
+    background-color: var(--text-light);
+}
+
+.zone{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap:10px 0;
+}
+
+.employeeZone{
+    background-color: #4457ff;
+    height: 100%;
+    width: 100%;
+}
+.add-zone-btn{
+    width: 50px;
+    font-size: 20px;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--primary-green);
+        color: var(--bg-white);
+    border-radius: 10px;
+}
+.add-zone-btn:hover{
+    background-color: var(--text-light);
+}
+
