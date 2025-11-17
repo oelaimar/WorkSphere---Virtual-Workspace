@@ -14,13 +14,29 @@
         <aside>
             <h2>Unassigned Staff</h2>
             <button id="addEmployeeBtn">Add New Worker</button>
-            <div id="employeeContainer"></div>
+            <div id="employeeContainer">
+
+                <!-- <div class="employee-card">
+                    <img src="https://avatar.iran.liara.run/public/30" alt="Preview" style="width:80px;">
+                    <div>
+                        <h4>abdladim</h4>
+                        <p>IT staff</p>
+                    </div>
+                </div> -->
+                
+            </div>
         </aside>
 
         <main>
             <div id="conference" class="zone">
                 <div class="employeeZone">
-
+                    <!-- <div class="employee-card-onzone">
+                        <img src="https://avatar.iran.liara.run/public/30" alt="Preview" style="width:40px;">
+                        <div>
+                            <h4>abdladim</h4>
+                            <p>IT staff</p>
+                        </div>
+                    </div> -->
                 </div>
                 <button class="add-zone-btn">+</button>
             </div>
@@ -50,28 +66,29 @@
             </div>
             <div id="archives" class="zone">
                 <div class="employeeZone">
-                    
+
                 </div>
                 <button class="add-zone-btn">+</button>
             </div>
         </main>
     </div>
     <!-- add employee modal -->
-    <div id="addModal">
+    <div id="addModal" class="modal-overlay hidden">
         <div class="modalContainer">
             <div class="modalHeader">
                 <h2>ADD WORKER</h2>
-                <button>&times;</button>
+                <button class="closeBtn">&times;</button>
             </div>
-            <div class="modalBody">
+            <div class="modalBody ">
                 <form id="addEmployeeForm">
-                    <div>
-                        <label for="employeeName">Full Name *</label>
+                    <div class="error-message"></div>
+                    <div class="form-group">
+                        <label for="employeeName">Full Name *: </label>
                         <input type="text" id="employeeName" required>
                     </div>
 
-                    <div>
-                        <label for="employeeRole">Role *</label>
+                    <div class="form-group">
+                        <label for="employeeRole">Role *: </label>
                         <select id="employeeRole" required>
                             <option value="">Select a role...</option>
                             <option value="Receptionist">Receptionist</option>
@@ -83,64 +100,136 @@
                         </select>
                     </div>
 
-                    <div>
-                        <label for="employeePhoto">Photo URL</label>
+                    <div class="form-group">
+                        <label for="employeePhoto">Photo URL : </label>
                         <input type="url" id="employeePhoto">
                         <div class="photo-preview">
-                            <img id="photoPreview" src="https://avatar.iran.liara.run/public/30" alt="Preview">
+                            <img id="photoPreview" src="https://avatar.iran.liara.run/public/30" alt="Preview"
+                                style="width:80px;">
                         </div>
                     </div>
 
-                    <div>
-                        <label for="employeeEmail">Email *</label>
+                    <div class="form-group">
+                        <label for="employeeEmail">Email *: </label>
                         <input type="email" id="employeeEmail" required>
                     </div>
 
-                    <div>
-                        <label for="employeePhone">Phone *</label>
+                    <div class="form-group">
+                        <label for="employeePhone">Phone *: </label>
                         <input type="tel" id="employeePhone" required>
                     </div>
 
                     <div class="form-section">
                         <div class="section-header">
                             <h3>Professional Experience</h3>
-                            <button type="button" id="addExperienceBtn">+ Add</button>
+                            <button type="button" id="addExperienceBtn" class="addExperienceBtn">+ Add</button>
                         </div>
 
                         <div id="experiencesContainer">
                             <!-- Dynamic experience blocks will be added here with js-->
+                            <!-- <div class="experience-block" data-exp-id="1">
+                                <div class="experience-header">
+                                    <span>Experience #1</span>
+                                    <button type="button" class="remove-experience-btn" disabled>Remove</button>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Company</label>
+                                        <input type="text" class="exp-company">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Position</label>
+                                        <input type="text" class="exp-position">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" class="exp-start">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" class="exp-end">
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
                     </div>
 
-                    <div>
-                        <button type="button">Cancel</button>
-                        <button type="submit">Add Employee</button>
+                    <div class="employeeDisition">
+                        <button type="button" class="cancelEmployeeBtn">Cancel</button>
+                        <button type="submit" class="addEmployeeBtn">Add Employee</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <!-- selection modal -->
-    <div id="selectionModal">
+    <div id="selectionModal" class="modal-overlay hidden">
         <div class="modalContainer">
             <div class="modalHeader">
                 <h2>Select Employee</h2>
-                <button>&times;</button>
+                <button class="closeBtn">&times;</button>
             </div>
             <div class="modalBody">
-                <div class="selection-list" id="selectionList"></div>
+                <div id="selectionList">
+                    <!-- Dynamic experience blocks will be added here with js-->
+                    <!-- <div class="selection-list">
+                        <div>
+                            <img src="https://avatar.iran.liara.run/public/30" alt="Preview" style="width:80px;">
+                        </div>
+                        <div>
+                            <span class="selectionName">abd ladim</span>
+                            <span>IT Technician</span>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </div>
     </div>
     <!-- profile modal -->
-    <div id="profileModal">
+    <div id="profileModal" class="modal-overlay hidden">
         <div class="modalContainer">
             <div class="modalHeader">
                 <h2>Employee Profile</h2>
-                <button>&times;</button>
+                <button class="closeBtn">&times;</button>
             </div>
             <div class="modalBody">
-                <div class="modal-body" id="profileContent"></div>
+                <div class="modal-body" id="profileContent">
+                    <!-- Dynamic experience blocks will be added here with js-->
+                    <!-- <div class="selectionEmployee-block" data-emp-id="1">
+                        <div>
+                            <img src="https://avatar.iran.liara.run/public/30" alt="Preview" style="width:80px;">
+                        </div>
+                        <div>
+                            <h3>Personal Information</h3>
+                            <div>
+                                <span>Name:</span>
+                                <span>abid abdladim</span>
+                            </div>
+                            <div>
+                                <span>Role:</span>
+                                <span>IT Technician</span>
+                            </div>
+                            <div>
+                                <span>Email:</span>
+                                <span>email@example.com</span>
+                            </div>
+                            <div>
+                                <span>Phone:</span>
+                                <span>06559485869</span>
+                            </div>
+                            <div>
+                                <h3>Professional Experience</h3>
+                                <div>
+                                    <h4>position</h4>
+                                    <p>company</p>
+                                    <p>Date start - $Date end</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
             </div>
         </div>
     </div>

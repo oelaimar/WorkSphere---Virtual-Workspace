@@ -31,7 +31,8 @@ main {
     grid-template-columns: 410px 175px 240px 240px;
     grid-template-rows: 205px 190px 205px;
     gap: 10px;
-    padding: 10px
+    padding: 10px;
+    position: relative;
 }
 
 #conference {
@@ -73,6 +74,7 @@ main {
 aside {
     display: flex;
     height: 640px;
+    width: 350px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-light);
     box-shadow: var(--shadow);
@@ -89,35 +91,230 @@ aside {
     background-color: var(--primary-green);
     color: var(--bg-white);
     border-radius: 10px;
+    cursor: pointer;
 }
-#addEmployeeBtn:hover{
+
+#addEmployeeBtn:hover {
     background-color: var(--text-light);
 }
 
-.zone{
+.zone {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
-    gap:10px 0;
+    gap: 10px 0;
 }
 
-.employeeZone{
+.employeeZone {
     background-color: #4457ff;
     height: 100%;
     width: 100%;
+    overflow: scroll;
 }
-.add-zone-btn{
+
+.add-zone-btn {
     width: 50px;
     font-size: 20px;
     padding: 5px;
     border: 1px solid var(--border-color);
     background-color: var(--primary-green);
-        color: var(--bg-white);
+    color: var(--bg-white);
     border-radius: 10px;
+    cursor: pointer;
 }
-.add-zone-btn:hover{
+
+.add-zone-btn:hover {
     background-color: var(--text-light);
 }
 
+.modal-overlay {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+    display: none;
+    opacity: 0;
+}
+
+.modalContainer {
+    background-color: var(--bg-white);
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    overflow: scroll;
+    height: 600px;
+    width: 500px;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--text-dark);
+    padding-bottom: 10px;
+}
+
+.displayNone {
+    display: none;
+}
+
+.closeBtn {
+    padding: 2px;
+    height: fit-content;
+    background: none;
+    border: none;
+    font-size: 35px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.closeBtn:hover {
+    color: red;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    color: var(--text-light);
+    margin: 6px 0;
+    align-items: start;
+    width: 100%;
+}
+
+.form-group>.photo-preview {
+    align-self: center;
+    margin-top: 10px;
+}
+
+.form-group>input,
+.form-group>select {
+    width: 100%;
+    height: 30px;
+    background-color: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding-left: 10px;
+}
+
+.experience-block {
+    background-color: var(--bg-light);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    margin: 10px 0;
+    border-radius: 10px;
+}
+
+.error-message {
+    color: red;
+}
+
+.addExperienceBtn,
+.cancelEmployeeBtn,
+.addEmployeeBtn {
+    height: fit-content;
+    width: 120px;
+    font-size: 16px;
+    padding: 5px;
+    border: 1px solid var(--border-color);
+    background-color: var(--primary-green);
+    color: var(--bg-white);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.cancelEmployeeBtn:hover,
+.addEmployeeBtn:hover,
+.addExperienceBtn:hover {
+    background-color: var(--text-light);
+}
+
+.employeeDisition {
+    display: flex;
+    justify-content: space-around;
+}
+
+.remove-experience-btn {
+    background-color: rgb(227, 80, 80);
+    color: white;
+    border: var(--border-color);
+    padding: 4px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    width: 100%;
+}
+
+.selection-list {
+    display: flex;
+    margin: 25px 0;
+    border-bottom: 1px solid var(--border-color);
+    justify-content: start;
+    gap: 40px;
+    align-items: center;
+    padding: 10px;
+}
+
+.selection-list>div {
+    display: flex;
+    flex-direction: column;
+}
+
+.selectionName {
+    font-weight: bold;
+}
+
+.selectionEmployee-block {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+    gap: 10px;
+}
+
+.employee-card {
+    display: flex;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    width: 250px;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
+
+.employee-card-onzone {
+    display: flex;
+    background-color: white;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    width: 150px;
+    font-size: small;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 15px 0;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+}
