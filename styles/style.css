@@ -21,10 +21,11 @@ body {
     background-color: var(--bg-light);
     color: var(--text-dark);
     line-height: 1.6;
+    height: 640px;
 }
 
 main {
-    height: 100vh;
+    height: 640px;
     width: 100%;
     background: url("/assets/images/plan-69159a65c5684763515973.jpg") no-repeat;
     display: grid;
@@ -309,7 +310,7 @@ aside {
 }
 
 .employee-card-onzone:hover,
-.employee-card:hover{
+.employee-card:hover {
     transform: scale(1.05);
 }
 
@@ -326,4 +327,52 @@ aside {
     margin: 15px 0;
     box-shadow: var(--shadow);
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+
+    body {
+        display: flex;
+        height: 760px;
+        width: 100vw;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+        transform: rotate(90deg);
+    }
+
+    main {
+        background-size: 557.5px 320px;
+        grid-template-columns: 205px 87.5px 120px 120px;
+        grid-template-rows: 102.5px 95px 102.5px;
+        height: 320px;
+        bottom: 0;
+        gap: 5px;
+        padding: 5px;
+    }
+
+    .add-zone-btn {
+        width: 25px;
+        font-size: 10px;
+        padding: 2, 5px;
+    }
+
+    aside {
+        height: 320px;
+        width: 175px;
+    }
+
+    .employee-card {
+        width: 125px;
+        padding: 5px;
+        margin: 7.5px 0;
+    }
+
+    .employee-card-onzone {
+        width: 75px;
+        padding: 5px;
+        margin: 7, 5px 0;
+    }
 }
