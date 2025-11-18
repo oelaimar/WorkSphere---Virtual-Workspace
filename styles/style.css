@@ -96,6 +96,7 @@ aside {
 
 #addEmployeeBtn:hover {
     background-color: var(--text-light);
+    transform: scale(1.15);
 }
 
 .zone {
@@ -127,6 +128,7 @@ aside {
 
 .add-zone-btn:hover {
     background-color: var(--text-light);
+    transform: scale(1.5);
 }
 
 .modal-overlay {
@@ -182,7 +184,8 @@ aside {
 }
 
 .closeBtn:hover {
-    color: red;
+    color: var(--primary-red);
+    transform: scale(1.05);
 }
 
 .form-group {
@@ -219,7 +222,7 @@ aside {
 }
 
 .error-message {
-    color: red;
+    color: var(--primary-red);
 }
 
 .addExperienceBtn,
@@ -240,6 +243,7 @@ aside {
 .addEmployeeBtn:hover,
 .addExperienceBtn:hover {
     background-color: var(--text-light);
+    transform: scale(1.5);
 }
 
 .employeeDisition {
@@ -248,7 +252,7 @@ aside {
 }
 
 .remove-experience-btn {
-    background-color: rgb(227, 80, 80);
+    background-color: var(--primary-red);
     color: white;
     border: var(--border-color);
     padding: 4px;
@@ -302,6 +306,11 @@ aside {
     margin: 15px 0;
     box-shadow: var(--shadow);
     cursor: pointer;
+}
+
+.employee-card-onzone:hover,
+.employee-card:hover{
+    transform: scale(1.05);
 }
 
 .employee-card-onzone {
