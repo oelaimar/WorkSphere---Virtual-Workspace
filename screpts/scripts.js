@@ -5,6 +5,8 @@ const closeModalsBtn = document.querySelectorAll(".closeBtn");
 const selectionModal = document.getElementById("selectionModal");
 const profileModal = document.getElementById("profileModal");
 const canselFormBtn = document.getElementById("canselFormBtn");
+const experiencesContainer = document.getElementById("experiencesContainer");
+const addExperienceBtn = document.getElementById("addExperienceBtn");
 
 
 // Zone Configuration
@@ -23,23 +25,87 @@ let employeeId = 1;
 let experienceIdCounter = 2;
 let currentZoneForSelection = null;
 
-function openAddModal(){
+function openAddModal() {
     addModal.classList.remove("hidden");
 }
 
 addEmployeeBtn.addEventListener("click", openAddModal);
 canselFormBtn.addEventListener("click", closeModals)
 
-
-
-function closeModals(){
+function closeModals() {
     addModal.classList.add("hidden");
     selectionModal.classList.add("hidden");
     profileModal.classList.add("hidden");
 }
 
-
-
 closeModalsBtn.forEach(e => {
     e.addEventListener("click", closeModals);
 });
+
+function addExperienceField() {
+    const experienceDiv = document.createElement("div");
+    experienceDiv.classList.add("experience-block");
+    experienceDiv.dataset.expId = `${experienceIdCounter}`;
+    experienceDiv.innerHTML = `<div class="experience-header">
+                                    <span>Experience #${experienceIdCounter}</span>
+                                    <button type="button" class="remove-experience-btn" data-remove-id=${experienceIdCounter}>Remove</button>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Company</label>
+                                        <input type="text" class="exp-company">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Position</label>
+                                        <input type="text" class="exp-position">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" class="exp-start">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" class="exp-end">
+                                    </div>
+                                </div>`;
+    experiencesContainer.appendChild(experienceDiv);
+
+    //evenet lesstener for all remove btns
+    const removeButtons = document.querySelectorAll(".remove-experience-btn");
+
+    experienceIdCounter++;
+    updateRemoveButtons();
+}
+
+function removeExperienceField(expId) {
+    document.querySelector(`[data-exp-id="${expId}"]`).remove();
+    experienceIdCounter--;
+    updateRemoveButtons();
+}
+
+function updateRemoveButtons(){
+    const removeButtons = document.querySelectorAll(".remove-experience-btn");
+
+    // Disable all
+    removeButtons.forEach(btn => {
+        btn.disabled = true;
+        btn.style.backgroundColor = "gray";
+        btn.onclick = null; // remove previous handlers
+    });
+
+    // Enable ONLY the last one
+    if (removeButtons.length > 1) {
+        const lastBtn = removeButtons[removeButtons.length - 1];
+        lastBtn.disabled = false;
+        lastBtn.style.backgroundColor = "#ff4444";
+
+        lastBtn.onclick = () => {
+            removeExperienceField(lastBtn.dataset.removeId);
+        };
+    }
+}
+
+addExperienceBtn.addEventListener("click", addExperienceField);
+
