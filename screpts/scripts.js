@@ -12,6 +12,7 @@ const preview = document.getElementById("photoPreview");
 const employeeName = document.getElementById("employeeName");
 const employeeEmail = document.getElementById("employeeEmail");
 const employeePhone = document.getElementById("employeePhone");
+const employeeRole = document.getElementById("employeeRole")
 const errorMessageValidation = document.querySelector(".error-message");
 const addEmployeeForm = document.getElementById("addEmployeeForm");
 
@@ -79,9 +80,6 @@ function addExperienceField() {
                                     </div>
                                 </div>`;
     experiencesContainer.appendChild(experienceDiv);
-
-    //evenet lesstener for all remove btns
-    const removeButtons = document.querySelectorAll(".remove-experience-btn");
 
     experienceIdCounter++;
     updateRemoveButtons();
@@ -218,8 +216,26 @@ addEmployeeForm.addEventListener('submit', function (e) {
 
     if (isNameValid && isEmailValid && isPhoneValid && isExperiencesValid) {
         // All validations passed - proceed with form submission
-        console.log('Form is valid! Ready to submit.');
-        // Add your form submission logic here addEmployee();
-        addEmployeeForm.reset()
+        addEmployee();
+        displayUnassignedStaff();
+        addEmployeeForm.reset();
+        closeModals();
     }
 });
+
+function addEmployee() {
+    const employee = {
+        id: employeeId++,
+        name: employeeName.value,
+        role: employeeRole.value,
+        photo: preview.src,
+        email: employeeEmail.value,
+        phone: employeePhone.value,
+        experiences: experiences,
+    };
+    employees.push(employee);
+}
+
+function displayUnassignedStaff(){
+    
+}
