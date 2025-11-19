@@ -28,6 +28,7 @@ const zoneConfig = {
 
 // Global Data
 let employees = [];
+let experiences = [];
 let employeeId = 1;
 let experienceIdCounter = 2;
 let currentZoneForSelection = null;
@@ -175,6 +176,32 @@ function validateField(field, fieldType) {
     return true;
 }
 
+//validatiion experiences
+function validateDates() {
+    experiences = [];
+    const experiencesThatExist = document.querySelectorAll(".experience-block");
+    let isExperiences = true;
+
+    experiencesThatExist.forEach((experience) => {
+        const company = experience.querySelector('.exp-company').value;
+        const position = experience.querySelector('.exp-position').value;
+        const start = experience.querySelector('.exp-start').value;
+        const end = experience.querySelector('.exp-end').value;
+        clearTimeout(errorTimeout);
+        if (start > end || !company || !position || !start || !end) {
+            isExperiences = false;
+            errorMessageValidation.innerHTML += `make sure the experiences are valid</br>`;
+            errorTimeout = setTimeout(() => {
+                errorMessageValidation.innerHTML = "";
+            }, 3000);
+
+        } else {
+            experiences.push({ company, position, start, end });
+        }
+    });
+    return isExperiences;
+}
+
 // Form submission validation
 addEmployeeForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -187,8 +214,9 @@ addEmployeeForm.addEventListener('submit', function (e) {
     const isEmailValid = validateField(employeeEmail, 'emailError');
     const isNameValid = validateField(employeeName, 'nameError');
     const isPhoneValid = validateField(employeePhone, 'phoneError');
+    const isExperiencesValid = validateDates();
 
-    if (isNameValid && isEmailValid && isPhoneValid) {
+    if (isNameValid && isEmailValid && isPhoneValid && isExperiencesValid) {
         // All validations passed - proceed with form submission
         console.log('Form is valid! Ready to submit.');
         // Add your form submission logic here addEmployee();
