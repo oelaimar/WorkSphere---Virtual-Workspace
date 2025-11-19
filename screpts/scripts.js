@@ -7,6 +7,8 @@ const profileModal = document.getElementById("profileModal");
 const canselFormBtn = document.getElementById("canselFormBtn");
 const experiencesContainer = document.getElementById("experiencesContainer");
 const addExperienceBtn = document.getElementById("addExperienceBtn");
+const url = document.getElementById("employeePhoto");
+const preview = document.getElementById("photoPreview");
 
 
 // Zone Configuration
@@ -85,7 +87,7 @@ function removeExperienceField(expId) {
     updateRemoveButtons();
 }
 
-function updateRemoveButtons(){
+function updateRemoveButtons() {
     const removeButtons = document.querySelectorAll(".remove-experience-btn");
 
     // Disable all
@@ -109,3 +111,30 @@ function updateRemoveButtons(){
 
 addExperienceBtn.addEventListener("click", addExperienceField);
 
+
+function loadImage(src) {
+    const img = document.createElement("img");
+    return new Promise((resolve, reject) => {
+        img.src = src;
+        img.onload = resolve;
+        img.onerror = reject;
+    });
+}
+
+function updatePhotoPreview() {
+    const fallback = "./assets/images/18.png";
+
+    loadImage(url.value)
+        .then(() => {
+            preview.src = url.value;
+        })
+        .catch(() => {
+            loadImage(fallback)
+                .then(() => {
+                    preview.src = fallback;
+                });
+        });
+}
+
+
+url.addEventListener("input", updatePhotoPreview);
