@@ -9,6 +9,11 @@ const experiencesContainer = document.getElementById("experiencesContainer");
 const addExperienceBtn = document.getElementById("addExperienceBtn");
 const url = document.getElementById("employeePhoto");
 const preview = document.getElementById("photoPreview");
+const employeeName = document.getElementById("employeeName");
+const employeeEmail = document.getElementById("employeeEmail");
+const employeePhone = document.getElementById("employeePhone");
+const errorMessageValidation = document.querySelector(".error-message");
+const addEmployeeForm = document.getElementById("addEmployeeForm");
 
 
 // Zone Configuration
@@ -138,3 +143,55 @@ function updatePhotoPreview() {
 
 
 url.addEventListener("input", updatePhotoPreview);
+
+const REGEX = {
+    nameError: /^[a-zA-Z\s-]{2,50}$/,
+    phoneError: /^\+?[1-9]\d{0,3}[-.\s]?(\(?\d{1,4}\)?[-.\s]?)?[\d\s.-]{7,15}$/,
+    emailError: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+};
+
+// Error messages
+const ERRORMESSAGES = {
+    nameError: "Name must contain only letters, spaces, and hyphens (2-50 characters)",
+    phoneError: "Please enter a valid international phone number (e.g., +1234567890)",
+    emailError: "Please enter a valid email address",
+};
+
+let errorTimeout;
+
+function validateField(field, fieldType) {
+
+    clearTimeout(errorTimeout);
+
+    // Check regex validation
+    if (!REGEX[fieldType].test(field.value) || field.value.trim() == "") {
+        errorMessageValidation.innerHTML += ERRORMESSAGES[fieldType] + `</br>`;
+        errorTimeout = setTimeout(() => {
+            errorMessageValidation.innerHTML = "";
+        }, 3000);
+        return false;
+    }
+
+    return true;
+}
+
+// Form submission validation
+addEmployeeForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    // Clear previous errors
+    errorMessageValidation.innerHTML = "";
+    clearTimeout(errorTimeout);
+
+    // Validate all required fields
+    const isEmailValid = validateField(employeeEmail, 'emailError');
+    const isNameValid = validateField(employeeName, 'nameError');
+    const isPhoneValid = validateField(employeePhone, 'phoneError');
+
+    if (isNameValid && isEmailValid && isPhoneValid) {
+        // All validations passed - proceed with form submission
+        console.log('Form is valid! Ready to submit.');
+        // Add your form submission logic here addEmployee();
+        addEmployeeForm.reset()
+    }
+});
