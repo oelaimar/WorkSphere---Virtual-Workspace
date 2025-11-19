@@ -15,6 +15,7 @@ const employeePhone = document.getElementById("employeePhone");
 const employeeRole = document.getElementById("employeeRole")
 const errorMessageValidation = document.querySelector(".error-message");
 const addEmployeeForm = document.getElementById("addEmployeeForm");
+const employeeContainer = document.getElementById("employeeContainer");
 
 
 // Zone Configuration
@@ -231,11 +232,33 @@ function addEmployee() {
         photo: preview.src,
         email: employeeEmail.value,
         phone: employeePhone.value,
+        location: null,
         experiences: experiences,
     };
     employees.push(employee);
 }
 
-function displayUnassignedStaff(){
+function displayUnassignedStaff() {
+    employeeContainer.innerHTML = "";
+
+    //return array to only the unssingned staff
+    const UnassignedStaff = employees.filter((emp)=>{
+        return emp.location == null;
+    });
     
+    //display it in the asid bar
+    UnassignedStaff.forEach((staff)=>{
+        
+        employeeContainer.innerHTML += `
+            <div class="selection-list">
+                <div>
+                    <img src="${staff.photo}" alt="Preview" style="width:80px;">
+                </div>
+                <div>
+                    <span class="selectionName">${staff.name}</span>
+                    <span>IT Technician</span>
+                </div>
+            </div>
+        `
+    });
 }
