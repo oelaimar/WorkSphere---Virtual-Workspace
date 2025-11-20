@@ -16,6 +16,8 @@ const employeeRole = document.getElementById("employeeRole")
 const errorMessageValidation = document.querySelector(".error-message");
 const addEmployeeForm = document.getElementById("addEmployeeForm");
 const employeeContainer = document.getElementById("employeeContainer");
+const selectionList = document.getElementById("selectionList");
+const addZoneBtn = document.querySelectorAll(".add-zone-btn")
 
 
 // Zone Configuration
@@ -290,3 +292,40 @@ function canEmployeeBeAssigned(employee, zoneName) {
     if (zone.restrictions.length === 0) return true;
     return zone.restrictions.includes(employee.role);
 }
+
+function openZoneSelection(zoneName) {
+    selectionList.innerHTML = "";
+
+    const zoneNameAllowed = employees.filter((emp) => {
+        return canEmployeeBeAssigned(emp, zoneName);
+    });
+
+    if (zoneNameAllowed.length === 0) {
+        selectionList.innerHTML = "No eligible employee";
+    } else {
+        zoneNameAllowed.forEach((e) => {
+            selectionList.innerHTML += `<div class="selection-list" style="cursor: pointer;" onclick="assignEmployeeToZone();">
+                        <div>
+                            <img src="${e.photo}" alt="Preview" style="width:80px;">
+                            </div>
+                            <div>
+                            <span class="selectionName">${e.name}</span>
+                            <span>${e.role}</span>
+                            </div>
+                            </div>`;
+        });
+    }
+}
+addZoneBtn.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        selectionModal.classList.remove("hidden");
+        openZoneSelection(btn.dataset.zone);
+    });
+});
+
+function assignEmployeeToZone(){
+
+    
+    closeModals();
+}
+
