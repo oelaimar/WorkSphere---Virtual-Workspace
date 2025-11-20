@@ -232,7 +232,7 @@ function addEmployee() {
         photo: preview.src,
         email: employeeEmail.value,
         phone: employeePhone.value,
-        location: null,
+        location: "unassigned",
         experiences: experiences,
     };
     employees.push(employee);
@@ -242,13 +242,13 @@ function displayUnassignedStaff() {
     employeeContainer.innerHTML = "";
 
     //return array to only the unssingned staff
-    const UnassignedStaff = employees.filter((emp)=>{
-        return emp.location == null;
+    const UnassignedStaff = employees.filter((emp) => {
+        return emp.location == "unassigned";
     });
-    
+
     //display it in the asid bar
-    UnassignedStaff.forEach((staff)=>{
-        
+    UnassignedStaff.forEach((staff) => {
+
         employeeContainer.innerHTML += `
             <div class="selection-list">
                 <div>
@@ -262,3 +262,15 @@ function displayUnassignedStaff() {
         `
     });
 }
+
+
+
+function removeEmployeeFromZone(employeeId) {
+    const employee = employees.find(e => e.id === employeeId);
+    if (employee) {
+                employee.location = "unassigned";          
+                displayUnassignedStaff();
+                displayZones();
+            }
+}
+

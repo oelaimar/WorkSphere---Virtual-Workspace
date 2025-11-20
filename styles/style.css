@@ -113,7 +113,11 @@ aside {
     background-color: #4457ff;
     height: 100%;
     width: 100%;
-    overflow: scroll;
+    overflow-y: scroll;
+    display: flex;
+    gap : 10px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .add-zone-btn {
@@ -321,6 +325,7 @@ aside {
     align-items: center;
     border: 1px solid var(--border-color);
     width: 150px;
+    height: fit-content;
     font-size: small;
     padding: 10px;
     border-radius: 10px;
