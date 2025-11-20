@@ -84,6 +84,7 @@ aside {
     border-radius: 15px;
     padding: 10px;
     text-align: center;
+    overflow-y: scroll;
 }
 
 #addEmployeeBtn {

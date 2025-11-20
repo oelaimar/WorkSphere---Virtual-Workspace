@@ -263,14 +263,30 @@ function displayUnassignedStaff() {
     });
 }
 
-
-
 function removeEmployeeFromZone(employeeId) {
     const employee = employees.find(e => e.id === employeeId);
     if (employee) {
-                employee.location = "unassigned";          
-                displayUnassignedStaff();
-                displayZones();
-            }
+        employee.location = "unassigned";
+        displayUnassignedStaff();
+        displayZones();
+    }
 }
 
+function canEmployeeBeAssigned(employee, zoneName) {
+    const zone = zoneConfig[zoneName];
+
+    // Check capacity
+    const currentCount = employees.filter(e => e.location === zoneName).length;
+    if (currentCount >= zone.capacity) return false;
+
+    // Manager can go anywhere
+    if (employee.role === 'Manager') return true;
+
+    // Cleaning staff can go everywhere except archives
+    if (employee.role === 'Cleaning Staff' && zoneName === 'archives') return false;
+    if (employee.role === 'Cleaning Staff') return true;
+
+    // Check zone restrictions
+    if (zone.restrictions.length === 0) return true;
+    return zone.restrictions.includes(employee.role);
+}
