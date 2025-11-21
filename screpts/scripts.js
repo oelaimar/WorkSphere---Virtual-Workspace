@@ -271,12 +271,10 @@ function displayUnassignedStaff() {
 }
 
 function removeEmployeeFromZone(employeeId) {
-    const employee = employees.find(e => e.id === employeeId);
-    if (employee[0]) {
-        employee[0].location = "unassigned";
+    const employee = employees.find(e => e.id == employeeId);
+        employee.location = "unassigned";
         displayUnassignedStaff();
-        displayZones();
-    }
+        displayZones();    
 }
 
 function canEmployeeBeAssigned(employee, zoneName) {
@@ -343,9 +341,6 @@ function assignEmployeeToZone(employeeId, zoneName) {
 const zonesplaces = [conferenceZone, receptionZone, serverZone, securityZone, staffZone, archivesZone];
 const zonesName = ["conference", "reception", "server", "security", "staff", "archives"];
 
-console.log(conference.innerHTML);
-
-
 function displayZones() {
     //for each zone we display the employees 
     //the index is used for the zonePlacesZ
@@ -362,17 +357,29 @@ function displayZones() {
                 </div>
                 <div style="font-size: 25px;" class="btnToUnassignedEmp" data-id="${emp.id}">&times;</div>
             </div>
-            `
+            `;
             }
         });
     });
 
-    zonesplaces.forEach((zone) => {
+    const btnsToUnassignedEmp = document.querySelectorAll(".btnToUnassignedEmp");
+    
+    if (btnsToUnassignedEmp) {
+        btnsToUnassignedEmp.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                removeEmployeeFromZone(btn.dataset.id);
+            });
+        });
+    }
+
+    zonesplaces.forEach((zone, index) => {
         const parent = zone.closest(`.${zone.id}`);
         if (zone.innerHTML !== "") {
             parent.style.backgroundColor = "transparent";
+            
         } else {
-            parent.style.backgroundColor = "rgba(255,68,68,0.)";
+            parent.style.backgroundColor = "rgba(255,68,68,0.4)";
+            console.log(index);
         }
     });
 }
