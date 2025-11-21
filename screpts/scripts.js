@@ -17,17 +17,22 @@ const errorMessageValidation = document.querySelector(".error-message");
 const addEmployeeForm = document.getElementById("addEmployeeForm");
 const employeeContainer = document.getElementById("employeeContainer");
 const selectionList = document.getElementById("selectionList");
-const addZoneBtn = document.querySelectorAll(".add-zone-btn")
-
+const addZoneBtn = document.querySelectorAll(".add-zone-btn");
+const conferenceZone = document.getElementById("conference");
+const receptionZone = document.getElementById("reception");
+const serverZone = document.getElementById("server");
+const securityZone = document.getElementById("security");
+const staffZone = document.getElementById("staff");
+const archivesZone = document.getElementById("archives");
 
 // Zone Configuration
 const zoneConfig = {
-    conference: { name: "Conference Room", capacity: 10, restrictions: [] },
-    reception: { name: "Reception", capacity: 2, restrictions: ["Receptionist"] },
-    server: { name: "Server Room", capacity: 3, restrictions: ["IT Technician"] },
-    security: { name: "Security Room", capacity: 2, restrictions: ["Security Agent"] },
-    staff: { name: "Staff Room", capacity: 15, restrictions: [] },
-    archives: { name: "Archives Room", capacity: 3, restrictions: ["Cleaning"] }
+    conference: { name: "conference", capacity: 10, restrictions: [] },
+    reception: { name: "reception", capacity: 2, restrictions: ["Receptionist"] },
+    server: { name: "server", capacity: 3, restrictions: ["IT Technician"] },
+    security: { name: "security", capacity: 2, restrictions: ["Security Agent"] },
+    staff: { name: "staff", capacity: 15, restrictions: [] },
+    archives: { name: "archives", capacity: 3, restrictions: ["Cleaning Staff"] }
 };
 
 // Global Data
@@ -267,8 +272,8 @@ function displayUnassignedStaff() {
 
 function removeEmployeeFromZone(employeeId) {
     const employee = employees.find(e => e.id === employeeId);
-    if (employee) {
-        employee.location = "unassigned";
+    if (employee[0]) {
+        employee[0].location = "unassigned";
         displayUnassignedStaff();
         displayZones();
     }
@@ -304,7 +309,7 @@ function openZoneSelection(zoneName) {
         selectionList.innerHTML = "No eligible employee";
     } else {
         zoneNameAllowed.forEach((e) => {
-            selectionList.innerHTML += `<div class="selection-list" style="cursor: pointer;" onclick="assignEmployeeToZone();">
+            selectionList.innerHTML += `<div class="selection-list" style="cursor: pointer;" onclick="assignEmployeeToZone(${e.id}, ${zoneName});" data-id=${e.id}>
                         <div>
                             <img src="${e.photo}" alt="Preview" style="width:80px;">
                             </div>
@@ -323,9 +328,51 @@ addZoneBtn.forEach((btn) => {
     });
 });
 
-function assignEmployeeToZone(){
-
-    
+function assignEmployeeToZone(employeeId, zoneName) {
+    employees.map((emp) => {
+        if (employeeId == emp.id) {
+            emp.location = zoneName.id;
+        }
+    });
+    displayUnassignedStaff();
     closeModals();
+    displayZones();
 }
 
+//it will be used in displayZones
+const zonesplaces = [conferenceZone, receptionZone, serverZone, securityZone, staffZone, archivesZone];
+const zonesName = ["conference", "reception", "server", "security", "staff", "archives"];
+
+console.log(conference.innerHTML);
+
+
+function displayZones() {
+    //for each zone we display the employees 
+    //the index is used for the zonePlacesZ
+    zonesName.forEach((zone, index) => {
+        zonesplaces[index].innerHTML = "";
+        employees.forEach((emp) => {
+            if (emp.location == zone) {
+                zonesplaces[index].innerHTML += `
+            <div class="employee-card-onzone">
+                <img src="${emp.photo}" alt="Preview" style="width:40px;">
+                <div>
+                    <h4>${emp.name}</h4>
+                    <p>${emp.role}</p>
+                </div>
+                <div style="font-size: 25px;" class="btnToUnassignedEmp" data-id="${emp.id}">&times;</div>
+            </div>
+            `
+            }
+        });
+    });
+
+    zonesplaces.forEach((zone) => {
+        const parent = zone.closest(`.${zone.id}`);
+        if (zone.innerHTML !== "") {
+            parent.style.backgroundColor = "transparent";
+        } else {
+            parent.style.backgroundColor = "rgba(255,68,68,0.)";
+        }
+    });
+}
