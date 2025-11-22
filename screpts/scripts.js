@@ -41,7 +41,6 @@ let employees = [];
 let experiences = [];
 let employeeId = 1;
 let experienceIdCounter = 2;
-let currentZoneForSelection = null;
 
 function openAddModal() {
     addModal.classList.remove("hidden");
@@ -227,6 +226,7 @@ addEmployeeForm.addEventListener('submit', function (e) {
         addEmployee();
         displayUnassignedStaff();
         lestenToProfileImages();
+        saveToLocalStorage();
         addEmployeeForm.reset();
         closeModals();
     }
@@ -276,6 +276,7 @@ function removeEmployeeFromZone(employeeId) {
     employee.location = "unassigned";
     displayUnassignedStaff();
     displayZones();
+    saveToLocalStorage();
     lestenToProfileImages();
 }
 
@@ -337,6 +338,7 @@ function assignEmployeeToZone(employeeId, zoneName) {
     displayUnassignedStaff();
     closeModals();
     displayZones();
+    saveToLocalStorage();
     lestenToProfileImages()
 }
 
@@ -448,3 +450,25 @@ function lestenToProfileImages() {
         })
     });
 }
+
+function saveToLocalStorage() {
+    localStorage.setItem("employeesData", JSON.stringify(employees));
+}
+
+function loadFromLocalStorage() {
+    try {
+        employees = JSON.parse(localStorage.getItem("employeesData")) || [];
+    } catch (error) {
+        employees = [];
+    }
+
+    const maxId = employees.length > 0 ? employees.reduce((max, emp) => emp.id > max ? emp.id : max, 0) : 0;
+
+    employeeId = maxId + 1;
+    
+    displayUnassignedStaff();
+    displayZones();
+    lestenToProfileImages();
+}
+
+document.addEventListener("DOMContentLoaded",loadFromLocalStorage);
