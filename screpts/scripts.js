@@ -24,14 +24,15 @@ const serverZone = document.getElementById("server");
 const securityZone = document.getElementById("security");
 const staffZone = document.getElementById("staff");
 const archivesZone = document.getElementById("archives");
+const profileContent = document.getElementById("profileContent");
 
 // Zone Configuration
 const zoneConfig = {
-    conference: { name: "conference", capacity: 10, restrictions: [] },
-    reception: { name: "reception", capacity: 2, restrictions: ["Receptionist"] },
+    conference: { name: "conference", capacity: 3, restrictions: [] },
+    reception: { name: "reception", capacity: 10, restrictions: ["Receptionist"] },
     server: { name: "server", capacity: 3, restrictions: ["IT Technician"] },
     security: { name: "security", capacity: 2, restrictions: ["Security Agent"] },
-    staff: { name: "staff", capacity: 15, restrictions: [] },
+    staff: { name: "staff", capacity: 5, restrictions: [] },
     archives: { name: "archives", capacity: 3, restrictions: ["Cleaning Staff"] }
 };
 
@@ -148,7 +149,6 @@ function updatePhotoPreview() {
         });
 }
 
-
 url.addEventListener("input", updatePhotoPreview);
 
 const REGEX = {
@@ -226,6 +226,7 @@ addEmployeeForm.addEventListener('submit', function (e) {
         // All validations passed - proceed with form submission
         addEmployee();
         displayUnassignedStaff();
+        lestenToProfileImages();
         addEmployeeForm.reset();
         closeModals();
     }
@@ -259,11 +260,11 @@ function displayUnassignedStaff() {
         employeeContainer.innerHTML += `
             <div class="selection-list">
                 <div>
-                    <img src="${staff.photo}" alt="Preview" style="width:80px;">
+                    <img data-profile="${staff.id}" src="${staff.photo}" alt="Preview" style="width:80px; cursor: pointer;">
                 </div>
                 <div>
                     <span class="selectionName">${staff.name}</span>
-                    <span>IT Technician</span>
+                    <span>${staff.role}</span>
                 </div>
             </div>
         `
@@ -272,9 +273,10 @@ function displayUnassignedStaff() {
 
 function removeEmployeeFromZone(employeeId) {
     const employee = employees.find(e => e.id == employeeId);
-        employee.location = "unassigned";
-        displayUnassignedStaff();
-        displayZones();    
+    employee.location = "unassigned";
+    displayUnassignedStaff();
+    displayZones();
+    lestenToProfileImages();
 }
 
 function canEmployeeBeAssigned(employee, zoneName) {
@@ -309,7 +311,7 @@ function openZoneSelection(zoneName) {
         zoneNameAllowed.forEach((e) => {
             selectionList.innerHTML += `<div class="selection-list" style="cursor: pointer;" onclick="assignEmployeeToZone(${e.id}, ${zoneName});" data-id=${e.id}>
                         <div>
-                            <img src="${e.photo}" alt="Preview" style="width:80px;">
+                            <img data-profile="${e.id}" src="${e.photo}" alt="Preview" style="width:80px;">
                             </div>
                             <div>
                             <span class="selectionName">${e.name}</span>
@@ -335,6 +337,7 @@ function assignEmployeeToZone(employeeId, zoneName) {
     displayUnassignedStaff();
     closeModals();
     displayZones();
+    lestenToProfileImages()
 }
 
 //it will be used in displayZones
@@ -350,7 +353,7 @@ function displayZones() {
             if (emp.location == zone) {
                 zonesplaces[index].innerHTML += `
             <div class="employee-card-onzone">
-                <img src="${emp.photo}" alt="Preview" style="width:40px;">
+                <img data-profile="${emp.id}" src="${emp.photo}" alt="Preview" style="width:40px;">
                 <div>
                     <h4>${emp.name}</h4>
                     <p>${emp.role}</p>
@@ -363,7 +366,7 @@ function displayZones() {
     });
 
     const btnsToUnassignedEmp = document.querySelectorAll(".btnToUnassignedEmp");
-    
+
     if (btnsToUnassignedEmp) {
         btnsToUnassignedEmp.forEach((btn) => {
             btn.addEventListener("click", () => {
@@ -372,14 +375,76 @@ function displayZones() {
         });
     }
 
-    zonesplaces.forEach((zone, index) => {
+    zonesplaces.forEach((zone) => {
         const parent = zone.closest(`.${zone.id}`);
         if (zone.innerHTML !== "") {
             parent.style.backgroundColor = "transparent";
-            
+
         } else {
             parent.style.backgroundColor = "rgba(255,68,68,0.4)";
-            console.log(index);
         }
+    });
+}
+
+function openEmployeeProfile(employeeId) {
+
+    const theEmp = employees.find(e => e.id == employeeId);
+    profileContent.innerHTML = "";
+    profileModal.classList.remove("hidden")
+    profileContent.innerHTML = `
+    <div class="selectionEmployee-block" data-emp-id="${theEmp.id}">
+        <div>
+            <img src="${theEmp.photo}" alt="Preview" style="width:150px; cursor: pointer;">
+        </div>
+        <div>
+            <h3>Personal Information</h3>
+            <div>
+                <span>Name:</span>
+                <span>${theEmp.name}</span>
+            </div>
+            <div>
+                <span>Role:</span>
+                <span>${theEmp.role}</span>
+            </div>
+            <div>
+                <span>Email:</span>
+                <span>${theEmp.email}</span>
+            </div>
+            <div>
+                <span>Phone:</span>
+                <span>${theEmp.phone}</span>
+            </div>
+        </div> 
+        <h3>Professional Experience</h3>
+        
+    `;
+
+    theEmp.experiences.forEach(exp => {
+        profileContent.innerHTML += `
+        <div class="selectionEmployee-block">
+            <div>
+                <h4>position: ${exp.position}</h4>
+                <p>company: ${exp.company}</p>
+                <p>Date start: ${exp.start} - Date end: ${exp.end}</p>
+            </div>
+        </div>  
+    `;
+    })
+
+
+    profileContent.innerHTML += `
+        </div>
+    `;
+
+
+}
+
+function lestenToProfileImages() {
+    const allEmpInZonesImgs = document.querySelectorAll("[data-profile]");
+
+    allEmpInZonesImgs.forEach(img => {
+        img.addEventListener("click", () => {
+            openEmployeeProfile(img.dataset.profile);
+        })
     });
 }

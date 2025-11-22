@@ -100,6 +100,10 @@ aside {
     background-color: var(--text-light);
     transform: scale(1.15);
 }
+.zone-title{
+    font-size: 20px;
+    font-weight: bold;
+}
 
 .zone {
     display: flex;
@@ -328,7 +332,7 @@ aside {
     border: 1px solid var(--border-color);
     width: 150px;
     height: fit-content;
-    font-size: small;
+    font-size: 10px;
     padding: 10px;
     border-radius: 10px;
     margin: 15px 0;
