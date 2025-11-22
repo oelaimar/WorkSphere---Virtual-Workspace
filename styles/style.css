@@ -280,12 +280,15 @@ aside {
 
 .selection-list {
     display: flex;
-    margin: 25px 0;
-    border-bottom: 1px solid var(--border-color);
-    justify-content: start;
-    gap: 40px;
+    margin: 10px 0;
+    border: 1px solid var(--border-color);
+    justify-content: space-between;
+    gap: 10px;
     align-items: center;
     padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    font-size: 12px;
 }
 
 .selection-list>div {
@@ -335,9 +338,22 @@ aside {
     font-size: 10px;
     padding: 10px;
     border-radius: 10px;
-    margin: 15px 0;
+    margin-top: 5px 0;
     box-shadow: var(--shadow);
     cursor: pointer;
+}
+
+.editBtn{
+    border: 1px solid var(--border-color);
+    background-color: var(--primary-orange);
+    border-radius: 8px;
+    color: white;
+    padding:8px;
+    cursor: pointer;
+}
+
+.editBtn:hover{
+    background-color: var(--text-light);
 }
 
 @media (max-width: 768px) {

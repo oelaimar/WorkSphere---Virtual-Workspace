@@ -25,6 +25,8 @@ const securityZone = document.getElementById("security");
 const staffZone = document.getElementById("staff");
 const archivesZone = document.getElementById("archives");
 const profileContent = document.getElementById("profileContent");
+const actionOfWorker = document.getElementById("actionOfWorker");
+const addEmployeeBtnSubmit = document.getElementById("addEmployeeBtnSubmit");
 
 // Zone Configuration
 const zoneConfig = {
@@ -41,6 +43,8 @@ let employees = [];
 let experiences = [];
 let employeeId = 1;
 let experienceIdCounter = 2;
+//this variable is for the editId
+let EditingEmployeeId = 0;
 
 function openAddModal() {
     addModal.classList.remove("hidden");
@@ -53,6 +57,17 @@ function closeModals() {
     addModal.classList.add("hidden");
     selectionModal.classList.add("hidden");
     profileModal.classList.add("hidden");
+    //reset the edit emp id
+    EditingEmployeeId = 0;
+    //reset the form
+    addEmployeeForm.reset();
+    //if it close after the title and the btn reset
+    actionOfWorker.innerHTML = "ADD WORKER";
+    addEmployeeBtnSubmit.innerHTML = "Add Employee"
+    // reset the number of experiences   
+    while(experienceIdCounter > 2){
+        removeExperienceField(experienceIdCounter-1);
+    }
 }
 
 closeModalsBtn.forEach(e => {
@@ -208,7 +223,7 @@ function validateDates() {
 }
 
 // Form submission validation
-addEmployeeForm.addEventListener('submit', function (e) {
+addEmployeeForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Clear previous errors
@@ -216,14 +231,18 @@ addEmployeeForm.addEventListener('submit', function (e) {
     clearTimeout(errorTimeout);
 
     // Validate all required fields
-    const isEmailValid = validateField(employeeEmail, 'emailError');
-    const isNameValid = validateField(employeeName, 'nameError');
-    const isPhoneValid = validateField(employeePhone, 'phoneError');
+    const isEmailValid = validateField(employeeEmail, "emailError");
+    const isNameValid = validateField(employeeName, "nameError");
+    const isPhoneValid = validateField(employeePhone, "phoneError");
     const isExperiencesValid = validateDates();
 
     if (isNameValid && isEmailValid && isPhoneValid && isExperiencesValid) {
         // All validations passed - proceed with form submission
-        addEmployee();
+        if (EditingEmployeeId != 0) {
+            editEmployee(EditingEmployeeId);
+        } else {
+            addEmployee();
+        }
         displayUnassignedStaff();
         lestenToProfileImages();
         saveToLocalStorage();
@@ -260,14 +279,25 @@ function displayUnassignedStaff() {
         employeeContainer.innerHTML += `
             <div class="selection-list">
                 <div>
-                    <img data-profile="${staff.id}" src="${staff.photo}" alt="Preview" style="width:80px; cursor: pointer;">
+                    <img data-profile="${staff.id}" src="${staff.photo}" alt="Preview" style="width:50px; cursor: pointer;">
                 </div>
                 <div>
                     <span class="selectionName">${staff.name}</span>
                     <span>${staff.role}</span>
                 </div>
+                <div>
+                    <button class="editBtn" data-btn-id="${staff.id}">edit</button>
+                </div>
             </div>
         `
+    });
+    const editBtn = document.querySelectorAll(".editBtn");
+
+    editBtn.forEach(btn => {
+        btn.addEventListener("click", () => {
+            filedTheForm(btn.dataset.btnId);
+            EditingEmployeeId = btn.dataset.btnId;
+        });
     });
 }
 
@@ -433,12 +463,9 @@ function openEmployeeProfile(employeeId) {
     `;
     })
 
-
     profileContent.innerHTML += `
         </div>
     `;
-
-
 }
 
 function lestenToProfileImages() {
@@ -449,6 +476,49 @@ function lestenToProfileImages() {
             openEmployeeProfile(img.dataset.profile);
         })
     });
+}
+
+function filedTheForm(employeeId) {
+    const theEmp = employees.find(e => e.id == employeeId);
+    openAddModal();
+    actionOfWorker.innerHTML = "EDIT THE WORKER"
+    addEmployeeBtnSubmit.innerHTML = "Edit Employee"
+
+    employeeName.value = theEmp.name;
+    employeeRole.value = theEmp.role;
+    url.value = theEmp.photo;
+    employeeEmail.value = theEmp.email;
+    employeePhone.value = theEmp.phone;
+
+    const thEmpExperiences = theEmp.experiences;
+
+    for (let i = 0; i < thEmpExperiences.length - 1; i++) {
+        addExperienceField();
+    }
+    const expCompany = document.querySelectorAll(".exp-company");
+    const expPosition = document.querySelectorAll(".exp-position");
+    const expStart = document.querySelectorAll(".exp-start");
+    const expEnd = document.querySelectorAll(".exp-end");
+
+    theEmp.experiences.forEach((exp, index) => {
+        expCompany[index].value = exp.company;
+        expPosition[index].value = exp.position;
+        expStart[index].value = exp.start;
+        expEnd[index].value = exp.end;
+    });
+
+}
+
+function editEmployee(employeeId) {
+
+    const theEmp = employees.find(e => e.id == employeeId);
+
+    theEmp.name = employeeName.value;
+    theEmp.role = employeeRole.value;
+    theEmp.photo = preview.src;
+    theEmp.email = employeeEmail.value;
+    theEmp.phone = employeePhone.value;
+    theEmp.experiences = experiences;
 }
 
 function saveToLocalStorage() {
@@ -465,10 +535,10 @@ function loadFromLocalStorage() {
     const maxId = employees.length > 0 ? employees.reduce((max, emp) => emp.id > max ? emp.id : max, 0) : 0;
 
     employeeId = maxId + 1;
-    
+
     displayUnassignedStaff();
     displayZones();
     lestenToProfileImages();
 }
 
-document.addEventListener("DOMContentLoaded",loadFromLocalStorage);
+document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
