@@ -38,32 +38,32 @@ main {
 
 .conference {
     grid-area: 1/1/2/2;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .reception {
     grid-area: 2/1/4/2;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .server {
     grid-area: 1/3/2/4;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .security {
     grid-area: 1/4/2/5;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .staff {
     grid-area: 3/4/4/5;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .archives {
     grid-area: 3/3/4/4;
-    background-color: rgba(255,68,68,0.4);
+    background-color: rgba(255, 68, 68, 0.4);
 }
 
 .container {
@@ -75,7 +75,7 @@ main {
 aside {
     display: flex;
     height: 640px;
-    width: 350px;
+    width: 400px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-light);
     box-shadow: var(--shadow);
@@ -100,8 +100,9 @@ aside {
     background-color: var(--text-light);
     transform: scale(1.15);
 }
-.zone-title{
-    font-size: 20px;
+
+.zone-title {
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -110,8 +111,8 @@ aside {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    gap: 10px 0;
+    padding: 5px;
+    gap: 4px 0;
 }
 
 .employeeZone {
@@ -120,15 +121,16 @@ aside {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
-    gap : 10px;
+    gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
 }
 
 .add-zone-btn {
-    width: 50px;
-    font-size: 20px;
+    width: fit-content;
+    font-size: 5px;
     padding: 5px;
     border: 1px solid var(--border-color);
     background-color: var(--primary-green);
@@ -167,7 +169,8 @@ aside {
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow);
     border-radius: 10px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     height: 600px;
     width: 500px;
 }
@@ -343,24 +346,90 @@ aside {
     cursor: pointer;
 }
 
-.editBtn{
+.editBtn {
     border: 1px solid var(--border-color);
     background-color: var(--primary-orange);
     border-radius: 8px;
     color: white;
-    padding:8px;
+    padding: 8px;
     cursor: pointer;
 }
 
-.editBtn:hover{
+.editBtn:hover {
     background-color: var(--text-light);
 }
 
-@media (max-width: 768px) {
+/* 80% smuller */
 
+@media (min-width: 1140px) and (max-width: 1324px) {
+
+    main {
+        background-size: 892px 512px;
+        grid-template-columns: 328px 140px 192px 192px;
+        grid-template-rows: 164px 152px 164px;
+        height: 512px;
+        bottom: 0;
+        gap: 8px;
+        padding: 8px;
+    }
+
+    aside {
+        width: 100%;
+        height: 520px;
+    }
+
+    .employee-card {
+        width: 200px;
+        padding: 8px;
+        margin: 12px 0;
+    }
+
+    .employee-card-onzone {
+        width: 120px;
+        font-size: 8px;
+        padding: 8px;
+        margin-top: 4px 0;
+    }
+}
+
+/* 60% smuller */
+@media (min-width: 800px) and (max-width: 1139px) {
+
+    main {
+        background-size: 669px 384px;
+        grid-template-columns: 246px 105px 144px 144px;
+        grid-template-rows: 123px 114px 123px;
+        height: 384px;
+        bottom: 0;
+        gap: 6px;
+        padding: 6px;
+    }
+
+    aside {
+        width: 100%;
+        height: 390px;
+    }
+
+    .employee-card {
+        width: 150px;
+        padding: 6px;
+        margin: 9px 0;
+    }
+
+    .employee-card-onzone {
+        width: 90px;
+        font-size: 6px;
+        padding: 6px;
+        margin: 3px 0;
+    }
+}
+
+/* 50% smuller and rotate the content 90deg */
+@media (max-width: 799px) {
+    
     body {
         display: flex;
-        height: 760px;
+        height: 100vh;
         width: 100vw;
         justify-content: center;
         align-items: center;
@@ -368,6 +437,17 @@ aside {
 
     .container {
         transform: rotate(90deg);
+    }
+
+    .modal-overlay {
+        transform: rotate(90deg);
+        width: 100%;
+    }
+
+    .modalContainer {
+        padding: 10px;
+        height: 500px;
+        width: 250px;
     }
 
     main {
@@ -381,14 +461,15 @@ aside {
     }
 
     .add-zone-btn {
-        width: 25px;
-        font-size: 10px;
-        padding: 2, 5px;
+        width: 5px;
+        font-size: 5px;
+        padding: 2px;
+        border-radius: 10px;
     }
 
     aside {
         height: 320px;
-        width: 175px;
+        width: 100%;
     }
 
     .employee-card {
@@ -400,6 +481,6 @@ aside {
     .employee-card-onzone {
         width: 75px;
         padding: 5px;
-        margin: 7, 5px 0;
+        margin: 5px 0;
     }
 }
