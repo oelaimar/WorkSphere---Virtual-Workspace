@@ -27,7 +27,7 @@ body {
 main {
     height: 640px;
     width: 100%;
-    background: url("/assets/images/plan-69159a65c5684763515973.jpg") no-repeat;
+    background: url("./assets/images/plan-69159a65c5684763515973.jpg") no-repeat;
     display: grid;
     grid-template-columns: 410px 175px 240px 240px;
     grid-template-rows: 205px 190px 205px;
